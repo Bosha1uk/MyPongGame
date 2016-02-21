@@ -4,7 +4,7 @@
 #include "lib/input.h"
 #include "lib/Player.h"
 
-cBall ball;
+
 cBoard player;
 cEnemy enemy;
 
@@ -16,7 +16,6 @@ float RandomFloat()
 void Game_Init()
 {
 	player.velocity.y = 5.0f;
-	enemy.position.x = 590.0f;
 }
 
 void Game_Update()
@@ -67,11 +66,15 @@ void Game_Update()
 
 	}
 
-	ball.Draw();
-	ball.Move();
-
 	player.Draw(1.0f, 0.0f, 0.0f);
 	enemy.Draw(0.0f, 1.0f, 0.0f);
+	enemy.balls.Draw(1.0f, 1.0f, 1.0f);
 
 	enemy.Move();
+	enemy.balls.Move();
+	enemy.boardcoll.Detection(player.position, enemy.balls.position);
+	enemy.boardcoll.Responsex(player.position, enemy.balls.position, enemy.balls.velocity);
+	enemy.boardcoll.Detection(enemy.position, enemy.balls.position);
+	enemy.boardcoll.Responsex(enemy.position, enemy.balls.position, enemy.balls.velocity);
+
 }
